@@ -30,3 +30,27 @@ def test_repo_cannot_be_found(github_api):
 def test_repo_with_single_char_be_found(github_api):
     r = github_api.search_repo("s")
     assert r['total_count'] != 0
+
+
+@pytest.mark.api
+def test_list_commits(github_api):
+    owner = "octocat"
+    repo = "Spoon-Knife"
+    commits = github_api.list_commits(owner, repo)
+    assert len(commits) > 0
+
+
+@pytest.mark.api
+def test_commit_comment(github_api):
+    owner = "octocat"
+    repo = "Hello-World"
+    comment_id = "1"
+    comment = github_api.test_commit_comment(owner, repo, comment_id)
+    assert len(comment) > 0
+
+
+@pytest.mark.api
+def test_check_if_emoji_exists(github_api):
+    emoji_name = "ukraine"
+    emojis = github_api.test_check_if_emoji_exists()
+    assert emoji_name in emojis
