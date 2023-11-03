@@ -1,5 +1,6 @@
 import pytest
 from modules.common.database import Database
+import sqlite3
 
 
 @pytest.mark.database
@@ -64,8 +65,48 @@ def test_detailed_orders():
     # Check quantity of orders equal to 1
     assert len(orders) == 1
 
-    # Check struture of data
+    # Check structure of data
     assert orders[0][0] == 1
     assert orders[0][1] == 'Sergii'
     assert orders[0][2] == 'солодка вода'
     assert orders[0][3] == 'з цукром'
+
+
+@pytest.mark.database
+def test_check_user_by_id():
+    db = Database()
+    user = db.get_user_info_by_id(1)
+
+    print (user)
+
+
+@pytest.mark.database
+def test_user_insert():
+    db = Database()
+    db.insert_user(99, 'John', 'Peremogi 66', 'Kyiv', 3115, 'Ukraine')
+    user = db.get_user_info_by_id(99)
+
+    print ("id 99 =", user)
+
+#if one element in the column is not filled in
+@pytest.mark.database
+def test_user_info():
+    db = Database()
+    db.insert_user(100, 'John', '', 'Kyiv', 3115, 'Ukraine')
+    user_info = db.get_user_info_by_id(100)
+
+    for record in user_info:
+        address = record[1]
+    assert len(address) == 0
+    
+     
+@pytest.mark.database
+def test_customer_delete():
+    db = Database()
+    db.insert_user(999, 'Johny', 'Peremogi 100', 'Kyiv', 3115, 'Ukraine')
+    db.delete_user_by_id(999)
+    user = db.get_user_address_by_name('Johny')    
+
+    assert len(user) == 0
+
+
