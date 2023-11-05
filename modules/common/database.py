@@ -66,6 +66,7 @@ class Database():
     
 
     def insert_user(self, customer_id, name, address, city, postalCode, country):
+        self.customer_id = customer_id
         query = f"INSERT OR REPLACE INTO customers (id, name, address, city, postalCode, country) \
             VALUES ({customer_id}, '{name}', '{address}', '{city}', '{postalCode}', '{country}')"
         self.cursor.execute(query)
@@ -76,3 +77,10 @@ class Database():
         query = f"DELETE FROM customers WHERE id = {customer_id}"
         self.cursor.execute(query)
         self.connection.commit()
+
+
+    def select_user(self,customer_id):
+        query = f"SELECT id FROM customers WHERE id = {self.customer_id}"
+        self.cursor.execute(query)
+        record = self.cursor.fetchall()
+        return record

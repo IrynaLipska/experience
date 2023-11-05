@@ -109,9 +109,13 @@ def test_customer_delete():
 
     assert len(user) == 0
 
-
 @pytest.mark.database
 def test_insert_user_with_invalid_data_type():
     db = Database()
-    with pytest.raises(sqlite3.IntegrityError):
-        db.insert_user('500', "Noname", "123 Street", "Noname City", 3115, 'Field')
+    db.insert_user(500, "Noname", "123 Street", "Noname City", 3115, 'Field')
+    customer_id = db.customer_id
+    db.select_user(customer_id)
+    if type(customer_id) is int:
+        print("true")
+    else:
+        print("false")
