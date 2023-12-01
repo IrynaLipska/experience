@@ -97,7 +97,7 @@ def test_user_info():
 
     for record in user_info:
         address = record[1]
-    assert len(address) == 0
+    assert len(address) > 0
     
      
 @pytest.mark.database
@@ -115,7 +115,5 @@ def test_insert_user_with_invalid_data_type():
     db.insert_user(500, "Noname", "123 Street", "Noname City", 3115, 'Field')
     customer_id = db.customer_id
     db.select_user(customer_id)
-    if type(customer_id) is int:
-        print("true")
-    else:
-        print("false")
+    
+    assert isinstance(customer_id, int)
