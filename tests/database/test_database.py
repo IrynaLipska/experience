@@ -79,6 +79,8 @@ def test_check_user_by_id():
 
     print (user)
 
+    assert user is not None
+
 
 @pytest.mark.database
 def test_user_insert():
@@ -87,6 +89,8 @@ def test_user_insert():
     user = db.get_user_info_by_id(99)
 
     print ("id 99 =", user)
+
+    assert user is not None
 
 #if one element in the column is not filled in
 @pytest.mark.database
